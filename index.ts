@@ -81,9 +81,9 @@ app.get('/museums/:id',(req, res)=>{
     }
 })
 
-// Creating a new work for the current museum
-app.post('/museums/:id',(req, res)=>{
-    const id = req.params.id
+// Creating a new work
+app.post('/work',(req, res)=>{
+    const museumID = req.body.museumID
     const name = req.body.name
     const picture = req.body.picture
     
@@ -93,7 +93,7 @@ app.post('/museums/:id',(req, res)=>{
     if(picture.length === 0) errors.push("Enter a an picture url")
     if(errors.length > 0)res.status(406).send({errors})
     else{
-        const result = createWork.run(name,picture,id)
+        const result = createWork.run(name,picture,museumID)
         if(result.changes > 0){
             res.send(getWorkbyID.get(result.lastInsertRowid))
         }
